@@ -105,3 +105,15 @@ struct ComplexStruct {
     #[serde(default)]
     pub string_tree: Option<Rc<BTreeSet<String>>>,
 }
+
+#[derive(Serialize, TS)]
+#[ts(export)]
+enum EnumWhereVariantsDontImplTS {
+    #[ts(type = "string")]
+    A(DoesNotImplTS),
+    #[ts(as = "String")]
+    B(DoesNotImplTS),
+}
+
+#[derive(Serialize)]
+struct DoesNotImplTS(String);

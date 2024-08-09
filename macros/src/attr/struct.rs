@@ -48,6 +48,8 @@ impl StructAttr {
     ) -> Self {
         Self {
             crate_rename: Some(enum_attr.crate_rename()),
+            type_as: variant_attr.type_as.clone(),
+            type_override: variant_attr.type_override.clone(),
             rename: variant_attr.rename.clone(),
             rename_all: variant_attr.rename_all.or(match variant_fields {
                 Fields::Named(_) => enum_attr.rename_all_fields,
