@@ -104,20 +104,20 @@ fn format_field(
 
     let parsed_ty = field_attr.type_as(&field.ty);
 
-    let (ty, optional_annotation) = match field_attr.optional {
+    let (ty, optional_annotation, undefined_type) = match field_attr.optional {
         Optional {
             optional: true,
             nullable,
         } => {
             let inner_type = extract_option_argument(&parsed_ty)?; // inner type of the optional
             match nullable {
-                true => (&parsed_ty, "?"),  // if it's nullable, we keep the original type
-                false => (inner_type, "?"), // if not, we use the Option's inner type
+                true => (&parsed_ty, "?", " | undefined"),  // if it's nullable, we keep the original type
+                false => (inner_type, "?", " | undefined"), // if not, we use the Option's inner type
             }
         }
         Optional {
             optional: false, ..
-        } => (&parsed_ty, ""),
+        } => (&parsed_ty, "", ""),
     };
 
     if field_attr.flatten {
@@ -154,7 +154,7 @@ fn format_field(
     };
 
     formatted_fields.push(quote! {
-        format!("{}{}{}: {},", #docs, #valid_name, #optional_annotation, #formatted_ty)
+        format!("{}{}{}: {}{},", #docs, #valid_name, #optional_annotation, #formatted_ty, #undefined_type)
     });
 
     Ok(())
