@@ -193,6 +193,7 @@ impl_parse! {
             }
         },
         "flatten" => out.flatten = true,
+        "skip_if_default" => {},
     }
 }
 
@@ -212,6 +213,7 @@ impl_parse! {
             parse_assign_str(input)?;
             out.0.using_serde_with = true;
         },
+        "skip_if_default" => {},
     }
 }
 
